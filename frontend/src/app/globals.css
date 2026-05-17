@@ -28,6 +28,7 @@ body {
   .bg-dot-pattern {
     background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1.5px, transparent 1.5px);
     background-size: 24px 24px;
+    background-attachment: fixed;
   }
 }
 
@@ -46,5 +47,6 @@ body {
 }
 
 .radial-bg {
-  background: radial-gradient(ellipse at top left, #1a1a3e 0%, #0f0f1a 60%);
+  background: radial-gradient(ellipse at top left, #151530 0%, #08080f 70%, #040406 100%);
+  background-attachment: fixed;
 }
