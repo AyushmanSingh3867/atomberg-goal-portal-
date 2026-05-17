@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { api } from "@/lib/api";
 import toast from "react-hot-toast";
+import { ShieldAlert } from "lucide-react";
 
 const TRIGGER_LABELS: Record<string, string> = {
   goal_not_submitted: "Goal Not Submitted",
@@ -111,10 +112,15 @@ export default function EscalationRulesPage() {
       {/* Header */}
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-0.5">
-            Escalation Rules
-          </h1>
-          <p className="text-slate-400 mt-1">
+          <div className="flex items-center space-x-3 mb-2">
+            <div className="p-3 bg-indigo-500/10 rounded-xl border border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.15)]">
+              <ShieldAlert className="w-6 h-6 text-indigo-400" />
+            </div>
+            <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-1">
+              Escalation Rules
+            </h1>
+          </div>
+          <p className="text-slate-400 text-lg ml-16">
             Configure automated escalation triggers and notification chains
           </p>
         </div>

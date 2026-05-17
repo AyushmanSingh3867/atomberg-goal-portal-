@@ -44,13 +44,15 @@ export default function AuditPage() {
   return (
     <div className="p-8 max-w-5xl mx-auto min-h-screen pb-20">
       <div className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-          <FileText className="w-8 h-8 text-indigo-400" />
-          <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+        <div className="flex items-center space-x-3 mb-2">
+          <div className="p-3 bg-indigo-500/10 rounded-xl border border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.15)]">
+            <FileText className="w-6 h-6 text-indigo-400" />
+          </div>
+          <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-1">
             Audit Trail
-          </span>
-        </h1>
-        <p className="text-slate-400 mt-1">
+          </h1>
+        </div>
+        <p className="text-slate-400 text-lg ml-16">
           Comprehensive governance logs with before/after state snapshots.
         </p>
       </div>

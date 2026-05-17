@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { api } from "@/lib/api";
 import toast from "react-hot-toast";
 import { format } from "date-fns";
+import { History } from "lucide-react";
 
 const TRIGGER_COLORS: Record<string, string> = {
   goal_not_submitted: "text-amber-400 bg-amber-400/10",
@@ -65,8 +66,15 @@ export default function EscalationLogsPage() {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-0.5">Escalation Log</h1>
-        <p className="text-slate-400 mt-1">
+        <div className="flex items-center space-x-3 mb-2">
+          <div className="p-3 bg-indigo-500/10 rounded-xl border border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.15)]">
+            <History className="w-6 h-6 text-indigo-400" />
+          </div>
+          <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-1">
+            Escalation Log
+          </h1>
+        </div>
+        <p className="text-slate-400 text-lg ml-16">
           Track all escalation alerts and their resolution status
         </p>
       </div>

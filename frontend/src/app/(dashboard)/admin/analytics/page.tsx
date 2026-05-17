@@ -6,6 +6,7 @@ import {
   BarChart, Bar, PieChart, Pie, Cell,
 } from "recharts";
 import { api } from "@/lib/api";
+import { BarChart2 } from "lucide-react";
 
 // ─── Color Helpers ────────────────────────────────────────
 const getScoreColor = (score: number) => {
@@ -130,10 +131,15 @@ export default function AnalyticsPage() {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-0.5">
-          Analytics
-        </h1>
-        <p className="text-slate-400 mt-1">
+        <div className="flex items-center space-x-3 mb-2">
+          <div className="p-3 bg-indigo-500/10 rounded-xl border border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.15)]">
+            <BarChart2 className="w-6 h-6 text-indigo-400" />
+          </div>
+          <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-1">
+            Analytics
+          </h1>
+        </div>
+        <p className="text-slate-400 text-lg ml-16">
           Quarter-on-quarter trends, goal insights, and manager performance
         </p>
       </div>
