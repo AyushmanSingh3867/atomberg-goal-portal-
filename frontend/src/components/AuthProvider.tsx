@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (!user && pathname !== '/login') {
+  if (!user && pathname !== '/login' && pathname !== '/auth/callback') {
     return <LoginPage />;
   }
 
