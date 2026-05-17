@@ -1,64 +1,101 @@
 # 🎯 Atomberg Goal Setting & Performance Governance Portal
 
-A premium, enterprise-grade Goal Management & Performance Governance Portal designed for modern corporate organizations. Featuring a unified, high-impact dark glassmorphism design system built with vanilla CSS tokens and fully reactive data synchronization.
+[![Live App](https://img.shields.io/badge/Live%20App-Vercel-6366f1?style=for-the-badge&logo=vercel)](https://atomberg-goal-portal.vercel.app)
+[![Backend API](https://img.shields.io/badge/Backend%20API-Render-a78bfa?style=for-the-badge&logo=render)](https://atomberg-backend.onrender.com)
+[![Status](https://img.shields.io/badge/Status-Operational-10b981?style=for-the-badge)](https://atomberg-backend.onrender.com/health)
+[![TypeScript](https://img.shields.io/badge/Language-TypeScript-3178c6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+
+An enterprise-grade, high-impact **Goal Management & Performance Governance Portal** engineered for modern corporate organizations. Designed around a unified premium dark glassmorphism aesthetic, backed by a robust validation engine, real-time audit logging, and zero-reload asynchronous state synchronization.
 
 ---
 
 ## 🔗 Live Deployments
 
-The portal is fully deployed and ready for live interaction:
+> [!IMPORTANT]
+> Both services are fully active, deployed in production, and automatically synchronized.
 
-* **🖥️ Live Web Application:** [https://atomberg-goal-portal.vercel.app](https://atomberg-goal-portal.vercel.app)
+* **🖥️ Live Web Application (Frontend):** [https://atomberg-goal-portal.vercel.app](https://atomberg-goal-portal.vercel.app)
 * **⚙️ Production Backend API:** [https://atomberg-backend.onrender.com](https://atomberg-backend.onrender.com)
+* **🏥 API Health Check:** [https://atomberg-backend.onrender.com/health](https://atomberg-backend.onrender.com/health)
 
 ---
 
-## 👤 Seeded Testing Accounts
+## 👥 Seeded Corporate Testing Accounts
 
-Use these pre-configured corporate accounts to experience the full end-to-end governance lifecycle:
+Use these pre-configured accounts to experience the full end-to-end performance evaluation lifecycle:
 
-| Role | Email Address | Password | Initial State / Testing Scenario |
+| User Role | Email Address | Password | Initial State / Testing Scenario |
 | :--- | :--- | :--- | :--- |
-| **👑 ADMIN** | `admin@atomberg.com` | `password123` | Active goal cycle controls, unlock goal sheets, warning logs, and audit trails. |
-| **💼 MANAGER** | `manager@atomberg.com` | `password123` | Team goal sheets review, Approve / Return workflows, and team check-in notes. |
-| **🧑‍💻 EMPLOYEE (Approved)** | `ayushman@atomberg.com` | `password123` | Has an **Approved** goal sheet. Ready to log and submit quarterly achievements. |
-| **🧑‍💻 EMPLOYEE (Pending)** | `shreya@atomberg.com` | `password123` | Has a **Submitted** goal sheet. Ready for Manager approval to unlock check-ins. |
+| **👑 ADMIN** | `admin@atomberg.com` | `password123` | Control active cycles, unlock goal sheets, warning logs, and view real-time audit trails. |
+| **💼 MANAGER** | `manager@atomberg.com` | `password123` | Manage pending team sheets, execute **Approve / Return for Rework** workflows, and log check-in feedback notes. |
+| **🧑‍💻 EMPLOYEE (Approved)** | `ayushman@atomberg.com` | `password123` | Goal Sheet status is **APPROVED**. Fully unlocked for quarterly achievements log. |
+| **🧑‍💻 EMPLOYEE (Pending)** | `shreya@atomberg.com` | `password123` | Goal Sheet status is **SUBMITTED** (Pending review). Awaiting manager sign-off to unlock check-ins. |
+
+---
+
+## 🏗️ System Architecture & Data Flow
+
+```mermaid
+graph TD
+    A[Next.js 14 Frontend App] -->|HTTPS Requests + Auth JWT| B[Express.js API Server]
+    B -->|Prisma Client ORM| C[PostgreSQL Database]
+    B -->|MSAL Node OAuth2| D[Microsoft Azure Active Directory]
+    B -->|Automated Cron Tasks| E[Escalation Rules Trigger Engine]
+    B -->|SMTP Server| F[Email Notifications]
+```
 
 ---
 
 ## 🚀 Key Features
 
-### 🔑 1. Premium Login & Real-Time Sync
-* **Overhauled SSO & Credentials:** Styled custom focus indicators matching brand indigo (`#6366f1`), glowing interactive borders, and inline failure-reporting states.
-* **Instantaneous Data Load:** Complete asynchronous state synchronization. Logging in instantly loads names, roles, emails, and database records **on the very first frame without requiring a page reload!**
+### ⚡ 1. Zero-Reload Reactive Synchronization
+* **The Challenge:** Traditional dashboards often suffer from race conditions where auth variables (like email) load split-seconds after pages mount, showing blank states until manual refresh.
+* **The Solution:** Fully synchronized backend auth responses containing user emails, coupled with reactive state hooks in React. The moment a user logs in, the portal instantly populates sidebar profiles, routes appropriate workspaces, and downloads specific user records **on the very first frame**.
 
-### 🎨 2. Unified High-Impact Design
-* **Harmonized Headers:** Every page—Goal Setting, Check-in, Performance, Reports, Analytics, Escalation Rules, Logs, and Audits—follows a strict, premium layout:
-  * Boxed, gradient-filled visual icon (`bg-indigo-500/10 rounded-xl border border-indigo-500/30`).
-  * Double-gradient `font-extrabold text-4xl` titles (`bg-gradient-to-r from-indigo-400 to-purple-400`).
-  * Subtitles aligned and properly spaced with high readability.
-* **Responsive Sidebar:** Collapse-friendly sidebar with real-time alert badges, active window summaries, and a popover profile panel.
+### 🎨 2. Premium Dark Glassmorphic Design System
+* **Harmonized Visual Identity:** Every page (Goals, Check-ins, Performance, Reports, Analytics, Escalation Settings, Logs, Audits) follows a strict, premium aesthetic:
+  * Boxed, glowing gradient icon (`bg-indigo-500/10 rounded-xl border border-indigo-500/30`).
+  * High-end purple-to-indigo linear gradient headers (`bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent`).
+  * Subtle radial gradient overlays and modern dot-patterns (`.radial-bg` + `.bg-dot-pattern`) creating exceptional visual depth without UI clutter.
+  * Brand Indigo focus glow outlines (`focus:ring-indigo-500/40`) and glowing borders for Microsoft SSO controls.
 
 ### 🎯 3. Dynamic Goal Validation Engine
-* **Goal Setting Constraints:** Automatically validates employee goal sheets live inside a premium two-column workspace:
+* **Rigorous Guardrails:** Employee goal sheets are validated live within a premium two-column workspace:
   * Total weightage must equal **exactly 100%**.
   * Minimum weightage of **10%** per goal.
-  * Maximum of **8 goals** per sheet.
-* **Interactive Active Cards:** Dynamic active summaries filter system-wide metrics and display active cycles instantly.
+  * Maximum limit of **8 goals** per sheet.
+* **Real-time Indicators:** Glowing status badges and dynamic validation tags update interactively as constraints are fulfilled.
 
-### 📊 4. Reporting, Analytics & Auditing
-* **Interactive Charts:** Beautiful QoQ trend graphs and achievement completion tracking.
-* **Excel & CSV Export:** Download data directly from the reports workspace, beautifully structured with alternating color patterns.
-* **Audit Trail:** Timestamped security logs tracking every critical event (logins, goal sheet updates, approvals, administrative overrides).
+### 📅 4. Unified System Timeline (FY2026-27)
+* **Realistic Scenarios:** Database reference structures and Prisma seeding have been fully shifted to **FY2026-27** (spanning `2026-04-01` to `2027-03-31`), aligning perfectly with active real-world timelines.
+* **Seeded Check-in Windows:** Quarter windows (Q1-Q4) are accurately mapped to late 2026 and early 2027. Notification cards dynamically query cycle data from the database rather than using hardcoded values.
 
-### 🔌 5. Escalation Engine
-* **Trigger Rules:** Dynamic automated rules (e.g. *Remind employee if goals not submitted after 3 days*) with custom warn levels and active switches.
+### 🛡️ 5. Administrative Governance & Audit Controls
+* **Audit Trail:** Timestamped ledger logs recording every critical action in the system (SSO Logins, Sheet Submissions, Approvals, Admin Unlocks).
+* **Excel & CSV Export:** Download comprehensive goal sheets, dynamically formatted with alternating grid-color rows.
+* **Escalation Triggers:** Automated warning cron tasks that track pending submittals and notify workers via active rules and toggle controls.
 
 ---
 
 ## 🛠️ Technology Stack
 
-* **Frontend:** Next.js 14 (App Router), TypeScript, TailwindCSS, Lucide Icons, Framer Motion.
-* **Backend:** Express.js, TypeScript, Prisma ORM, Date-fns, ExcelJS.
+* **Frontend:** Next.js 14 (App Router), TypeScript, TailwindCSS, Lucide Icons, Framer Motion, Vanilla HSL CSS Tokens.
+* **Backend:** Express.js, Node.js, TypeScript, Prisma ORM, Date-fns, ExcelJS.
 * **Database:** PostgreSQL.
-* **Identity:** Microsoft MSAL (Azure Active Directory OAuth2).
+* **Security & SSO:** Microsoft MSAL Node (Azure Active Directory OAuth2).
+* **Deployment:** Vercel (Frontend), Render (Backend).
+
+---
+
+## 🔒 Security & Roles Matrix
+
+| Feature / Workspace | Employee | Manager | Admin |
+| :--- | :---: | :---: | :---: |
+| View & Set Personal Goals | ✅ | ✅ | ✅ |
+| Log Quarterly Achievements | ✅ | ✅ | ✅ |
+| Review Pending Sheets | ❌ | ✅ | ✅ |
+| Approve / Reject Sheets | ❌ | ✅ | ✅ |
+| Deploy Shared Departmental Goals | ❌ | ✅ | ✅ |
+| Create & Toggle Escalation Triggers | ❌ | ❌ | ✅ |
+| Administrative Goal Unlock | ❌ | ❌ | ✅ |
+| Access Global System Audit Ledger | ❌ | ❌ | ✅ |
