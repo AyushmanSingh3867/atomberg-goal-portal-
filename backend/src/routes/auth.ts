@@ -74,7 +74,7 @@ router.post('/login', async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
-    res.json({ message: 'Logged in successfully', token, user: { id: user.id, name: user.name, role: user.role } });
+    res.json({ message: 'Logged in successfully', token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ error: error.issues });
@@ -95,11 +95,11 @@ router.get('/me', authenticate, async (req: AuthRequest, res) => {
       where: { id: req.user?.userId },
       select: { id: true, name: true, email: true, role: true, department_id: true, manager_id: true }
     });
-    
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    
+
     res.json({ user });
   } catch (error) {
     console.error('Auth error:', error);
