@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { LayoutDashboard, Target, Activity, Settings, FileText, CheckSquare, ShieldAlert, ChevronLeft, ChevronRight, Bell, PieChart, AlertTriangle, List } from 'lucide-react';
+import { LayoutDashboard, Target, Activity, Settings, FileText, CheckSquare, ShieldAlert, ChevronLeft, ChevronRight, Bell, PieChart, AlertTriangle, List, History } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 import { cn } from '../lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
@@ -54,7 +54,7 @@ export function Sidebar() {
     { icon: AlertTriangle, label: 'Escalation Rules', path: '/admin/escalation/rules', roles: ['ADMIN'] },
     { icon: List, label: 'Escalation Logs', path: '/admin/escalation/logs', roles: ['ADMIN'] },
     { icon: ShieldAlert, label: 'Admin Panel', path: '/admin', roles: ['ADMIN'] },
-    { icon: Activity, label: 'Audit Trail', path: '/admin/audit', roles: ['ADMIN'] },
+    { icon: History, label: 'Audit Trail', path: '/admin/audit', roles: ['ADMIN'] },
   ];
 
   const visibleNavItems = navItems.filter(item => !user || item.roles.includes(user.role));
