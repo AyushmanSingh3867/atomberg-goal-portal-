@@ -21,18 +21,19 @@ export const azureLoginHandler = async (_req: Request, res: Response) => {
 // ── Handle callback from Microsoft ───────────────────────
 export const azureCallbackHandler = async (req: Request, res: Response) => {
   const { code, error, error_description } = req.query;
+  const FRONTEND_URL = process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://atomberg-goal-portal.vercel.app';
 
   // Microsoft returned an error
   if (error) {
     console.error("Azure callback error:", error_description);
     return res.redirect(
-      `http://localhost:3000/login?error=${encodeURIComponent(String(error_description))}`
+      `${FRONTEND_URL}/login?error=${encodeURIComponent(String(error_description))}`
     );
   }
 
   if (!code) {
     return res.redirect(
-      `http://localhost:3000/login?error=No+auth+code+received`
+      `${FRONTEND_URL}/login?error=No+auth+code+received`
     );
   }
 
@@ -62,12 +63,12 @@ export const azureCallbackHandler = async (req: Request, res: Response) => {
 
     // 5. Redirect to frontend with token
     res.redirect(
-      `http://localhost:3000/auth/callback?token=${token}&role=${user.role}`
+      `${FRONTEND_URL}/auth/callback?token=${token}&role=${user.role}`
     );
   } catch (err: any) {
     console.error("Azure callback failed:", err.message);
     res.redirect(
-      `http://localhost:3000/login?error=${encodeURIComponent("SSO login failed. Try again.")}`
+      `${FRONTEND_URL}/login?error=${encodeURIComponent("SSO login failed. Try again.")}`
     );
   }
 };
