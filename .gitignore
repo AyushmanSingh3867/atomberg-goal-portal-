@@ -1,0 +1,24 @@
+# Master ignore file for Atomberg Goal Portal
+
+# Dependencies
+**/node_modules/
+package-lock.json
+
+# Environment Secrets (Crucial to prevent AD credential leaks!)
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Build Outputs
+**/.next/
+**/build/
+**/dist/
+**/*.tsbuildinfo
+next-env.d.ts
+
+# IDE / System Logs
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

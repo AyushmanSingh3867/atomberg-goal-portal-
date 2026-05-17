@@ -1,0 +1,312 @@
+// schema.prisma
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ─── Enums ───────────────────────────────────────────────
+
+enum Role {
+  EMPLOYEE
+  MANAGER
+  ADMIN
+}
+
+enum GoalSheetStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  RETURNED
+}
+
+enum UomType {
+  NUMERIC
+  PERCENTAGE
+  TIMELINE
+  ZERO_BASED
+}
+
+// ─── Phase 2 Enums ──────────────────────────────────────
+
+enum GoalProgress {
+  NOT_STARTED
+  ON_TRACK
+  COMPLETED
+}
+
+enum CheckInPeriod {
+  Q1          // July
+  Q2          // October
+  Q3          // January
+  Q4_ANNUAL   // March/April
+}
+
+enum UomDirection {
+  MIN    // Higher is better (Revenue, Sales)
+  MAX    // Lower is better (TAT, Cost)
+}
+
+// ─── Models ──────────────────────────────────────────────
+
+model Department {
+  id    String @id @default(uuid())
+  name  String @unique
+  users User[]
+}
+
+model User {
+  id            String      @id @default(uuid())
+  name          String
+  email         String      @unique
+  password      String
+  role          Role        @default(EMPLOYEE)
+  manager_id    String?
+  department_id String?
+
+  manager       User?       @relation("ManagerToEmployee", fields: [manager_id], references: [id])
+  employees     User[]      @relation("ManagerToEmployee")
+  department    Department? @relation(fields: [department_id], references: [id])
+  goalSheets    GoalSheet[]
+
+  // Phase 2: Manager check-in comments
+  checkInComments CheckInComment[]
+
+  // Phase 3: Audit Logs
+  auditLogs     AuditLog[]  @relation("UserToAudit")
+  
+  // Phase 5: Notifications
+  notifications Notification[]
+  escalationLogs EscalationLog[] @relation("EscalationEmployee")
+
+  created_at    DateTime    @default(now())
+
+  @@index([manager_id])
+  @@index([department_id])
+}
+
+model GoalCycle {
+  id         String      @id @default(uuid())
+  name       String      // e.g. FY2025-26
+  start_date DateTime
+  end_date   DateTime
+  is_active  Boolean     @default(true)
+  goalSheets GoalSheet[]
+
+  // Phase 2: Check-in windows
+  checkInWindows CheckInWindow[]
+}
+
+model ThrustArea {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  created_by  String  // userId of creator
+  goals       Goal[]
+}
+
+model GoalSheet {
+  id             String          @id @default(uuid())
+  employee_id    String
+  cycle_id       String
+  status         GoalSheetStatus @default(DRAFT)
+  submitted_at   DateTime?
+  approved_at    DateTime?
+  approved_by    String?         // userId of approving manager
+  rework_comment String?
+  created_at     DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+
+  employee       User            @relation(fields: [employee_id], references: [id])
+  cycle          GoalCycle       @relation(fields: [cycle_id], references: [id])
+  goals          Goal[]
+  escalations    Escalation[]
+
+  // Phase 2: Manager check-in comments per quarter
+  checkInComments CheckInComment[]
+
+  @@unique([employee_id, cycle_id])   // one sheet per employee per cycle
+  @@index([employee_id])
+  @@index([cycle_id])
+  @@index([status])
+}
+
+model Goal {
+  id                  String       @id @default(uuid())
+  goal_sheet_id       String
+  thrust_area_id      String
+  title               String
+  description         String?
+  uom_type            UomType
+  uom_direction       UomDirection @default(MIN)  // Phase 2: MIN = higher is better, MAX = lower is better
+  target_value        String       // String covers Numeric, %, Timeline, Zero-based
+  weightage           Float
+  achievement         String?      // legacy field (kept for backward compat)
+  is_shared           Boolean      @default(false)
+  shared_from_goal_id String?
+  is_readonly_title   Boolean      @default(false)
+  is_readonly_target  Boolean      @default(false)
+  created_at          DateTime     @default(now())
+  updated_at          DateTime     @updatedAt
+
+  goalSheet           GoalSheet    @relation(fields: [goal_sheet_id], references: [id], onDelete: Cascade)
+  thrustArea          ThrustArea   @relation(fields: [thrust_area_id], references: [id])
+  sharedFrom          Goal?        @relation("SharedGoals", fields: [shared_from_goal_id], references: [id])
+  sharedTo            Goal[]       @relation("SharedGoals")
+
+  // Phase 2: Quarterly achievements
+  achievements        Achievement[]
+
+  @@index([goal_sheet_id])
+  @@index([thrust_area_id])
+  @@index([shared_from_goal_id])
+}
+
+// ─── Phase 2 Models ─────────────────────────────────────
+
+/// Controls WHEN employees can enter achievement data
+model CheckInWindow {
+  id           String        @id @default(uuid())
+  cycle_id     String
+  period       CheckInPeriod
+  opens_at     DateTime
+  closes_at    DateTime
+  is_active    Boolean       @default(false)
+
+  cycle        GoalCycle     @relation(fields: [cycle_id], references: [id])
+  achievements Achievement[]
+  comments     CheckInComment[]
+
+  @@unique([cycle_id, period])
+  @@index([cycle_id])
+  @@index([is_active])
+}
+
+/// Stores WHAT employees achieved each quarter (one per goal per window)
+model Achievement {
+  id                String       @id @default(uuid())
+  goal_id           String
+  window_id         String
+  actual_value      String       // what the employee actually achieved
+  status            GoalProgress @default(NOT_STARTED)
+  progress_score    Float?       // system-computed 0-100
+  employee_notes    String?
+  created_at        DateTime     @default(now())
+  updated_at        DateTime     @updatedAt
+
+  goal              Goal          @relation(fields: [goal_id], references: [id], onDelete: Cascade)
+  window            CheckInWindow @relation(fields: [window_id], references: [id])
+
+  @@unique([goal_id, window_id])   // one achievement per goal per quarter
+  @@index([goal_id])
+  @@index([window_id])
+}
+
+/// Stores WHAT manager discussed each quarter (one per goalSheet per window)
+model CheckInComment {
+  id              String        @id @default(uuid())
+  goal_sheet_id   String
+  window_id       String
+  manager_id      String
+  comment         String
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt
+
+  goalSheet       GoalSheet     @relation(fields: [goal_sheet_id], references: [id], onDelete: Cascade)
+  window          CheckInWindow @relation(fields: [window_id], references: [id])
+  manager         User          @relation(fields: [manager_id], references: [id])
+
+  @@unique([goal_sheet_id, window_id])   // one comment per sheet per quarter
+  @@index([goal_sheet_id])
+  @@index([window_id])
+}
+
+// ─── Phase 3 Models ─────────────────────────────────────
+
+/// Tracks sensitive actions performed by Admins or Managers
+model AuditLog {
+  id           String   @id @default(uuid())
+  action       String   // e.g., "UNLOCKED_GOAL", "CREATED_CYCLE"
+  performed_by String   // Who performed the action (userId)
+  target_id    String?  // The ID of the affected resource (goal_id, cycle_id)
+  target_type  String?  // The type of resource (Goal, GoalCycle)
+  meta         Json     @default("{}") // JSON object for details
+  created_at   DateTime @default(now())
+
+  user         User     @relation("UserToAudit", fields: [performed_by], references: [id])
+
+  @@index([performed_by])
+  @@index([action])
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  user_id     String
+  title       String
+  message     String
+  type        String   // INFO, SUCCESS, WARNING, DANGER
+  is_read     Boolean  @default(false)
+  link        String?  // URL to navigate to
+  created_at  DateTime @default(now())
+
+  user        User     @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
+}
+
+model Escalation {
+  id             String   @id @default(uuid())
+  goal_sheet_id  String
+  level          Int      @default(1) // 1=L1 (Manager), 2=L2 (Skip), 3=HR
+  reason         String   // e.g., "Submission delayed by 7 days"
+  status         String   @default("OPEN") // OPEN, RESOLVED
+  escalated_at   DateTime @default(now())
+  resolved_at    DateTime?
+
+  goalSheet      GoalSheet @relation(fields: [goal_sheet_id], references: [id])
+
+  @@index([goal_sheet_id])
+}
+
+model EscalationRule {
+  id              String   @id @default(uuid())
+  name            String
+  trigger_type    String
+  // "goal_not_submitted" | "goal_not_approved" | "checkin_missed"
+  days_threshold  Int
+  notify_level    String
+  // "employee" | "manager" | "hr"
+  is_active       Boolean  @default(true)
+  created_by      String
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  logs EscalationLog[]
+
+  @@index([is_active])
+  @@index([trigger_type])
+}
+
+model EscalationLog {
+  id            String    @id @default(uuid())
+  rule_id       String
+  employee_id   String
+  notified_to   String    // userId who was notified
+  trigger_type  String
+  days_passed   Int
+  resolved      Boolean   @default(false)
+  resolved_at   DateTime?
+  resolved_by   String?
+  notes         String?
+  created_at    DateTime  @default(now())
+
+  rule     EscalationRule @relation(fields: [rule_id], references: [id])
+  employee User           @relation("EscalationEmployee", fields: [employee_id], references: [id])
+
+  @@index([employee_id])
+  @@index([resolved])
+  @@index([created_at])
+}
