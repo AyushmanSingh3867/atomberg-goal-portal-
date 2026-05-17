@@ -17,7 +17,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Goal Setting Portal | Atomberg",
-  description: "Set and track your goals for Phase 1.",
+  description: "Align thrust areas, track performance benchmarks, and govern corporate achievements for the FY2026-27 cycle.",
 };
 
 import { AuthProvider } from "@/components/AuthProvider";

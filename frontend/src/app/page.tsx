@@ -131,7 +131,7 @@ export default function GoalSettingPage() {
             Goal Setting Portal
           </h1>
         </div>
-        <p className="text-slate-400 text-lg ml-16">Define your Phase 1 targets and align your thrust areas.</p>
+        <p className="text-slate-400 text-lg ml-16">Define your FY2026-27 targets and align your thrust areas.</p>
       </motion.div>
 
       <div className="max-w-[900px] mx-auto space-y-8">
