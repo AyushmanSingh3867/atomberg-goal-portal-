@@ -115,7 +115,7 @@ export default function AdminDashboard() {
           <ShieldAlert className="w-6 h-6 text-red-400" />
         </div>
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight">Admin Console</h1>
+          <h1 className="text-3xl font-black tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-0.5">Admin Console</h1>
           <p className="text-slate-400 mt-1">Manage system configurations and users</p>
         </div>
         <div className="flex gap-4">

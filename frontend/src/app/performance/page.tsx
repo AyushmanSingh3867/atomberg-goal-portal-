@@ -96,9 +96,11 @@ export default function PerformancePage() {
     <div className="p-8 max-w-7xl mx-auto min-h-screen pb-20">
       <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold text-slate-100 tracking-tight flex items-center gap-3">
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
             <Activity className="w-8 h-8 text-indigo-400" />
-            Performance Dashboard
+            <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+              Performance Dashboard
+            </span>
           </h1>
           <p className="text-slate-400 mt-1">
             Track your goal achievements and quarterly growth.

@@ -65,7 +65,7 @@ export default function EscalationLogsPage() {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-100">Escalation Log</h1>
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-0.5">Escalation Log</h1>
         <p className="text-slate-400 mt-1">
           Track all escalation alerts and their resolution status
         </p>

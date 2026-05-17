@@ -111,7 +111,7 @@ export default function EscalationRulesPage() {
       {/* Header */}
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-slate-100">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-0.5">
             Escalation Rules
           </h1>
           <p className="text-slate-400 mt-1">
