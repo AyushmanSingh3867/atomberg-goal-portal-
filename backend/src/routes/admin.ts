@@ -41,6 +41,24 @@ router.get('/escalations', async (req: AuthRequest, res) => {
   }
 });
 
+// ─── GET /api/admin/cycles ─────────────────────────────
+// Get all goal cycles with sheet count
+router.get('/cycles', async (req: AuthRequest, res) => {
+  try {
+    const cycles = await prisma.goalCycle.findMany({
+      include: {
+        _count: {
+          select: { goalSheets: true }
+        }
+      },
+      orderBy: { start_date: 'desc' }
+    });
+    res.json({ cycles });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch goal cycles' });
+  }
+});
+
 // ─── POST /api/admin/cycles ─────────────────────────────
 // Create a new goal cycle
 const cycleSchema = z.object({
