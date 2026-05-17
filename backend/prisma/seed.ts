@@ -30,7 +30,7 @@ async function main() {
     where: { email: 'manager@atomberg.com' },
     update: {},
     create: {
-      name: 'Manager Bob',
+      name: 'Suresh Kumar',
       email: 'manager@atomberg.com',
       password: hashedPassword,
       role: 'MANAGER',
@@ -43,7 +43,7 @@ async function main() {
     where: { email: 'admin@atomberg.com' },
     update: {},
     create: {
-      name: 'Admin Alice',
+      name: 'Ramesh Kumar',
       email: 'admin@atomberg.com',
       password: hashedPassword,
       role: 'ADMIN',
@@ -70,7 +70,7 @@ async function main() {
     where: { email: 'sarah@atomberg.com' },
     update: {},
     create: {
-      name: 'Sarah Connor',
+      name: 'Sarah',
       email: 'sarah@atomberg.com',
       password: hashedPassword,
       role: 'EMPLOYEE',
