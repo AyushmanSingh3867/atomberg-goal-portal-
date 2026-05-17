@@ -226,6 +226,8 @@ export default function AdminDashboard() {
                         value={startDate} 
                         onChange={e=>setStartDate(e.target.value)} 
                         required 
+                        min="2020-01-01"
+                        max="2099-12-31"
                         className="w-full bg-black/40 border border-slate-700 rounded-lg p-2.5 text-white outline-none focus:border-indigo-500 transition-all" 
                       />
                     </div>
@@ -236,6 +238,8 @@ export default function AdminDashboard() {
                         value={endDate} 
                         onChange={e=>setEndDate(e.target.value)} 
                         required 
+                        min="2020-01-01"
+                        max="2099-12-31"
                         className="w-full bg-black/40 border border-slate-700 rounded-lg p-2.5 text-white outline-none focus:border-indigo-500 transition-all" 
                       />
                     </div>
