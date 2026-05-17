@@ -51,59 +51,31 @@ body {
   background-attachment: fixed;
 }
 
-/* Highly Visible Custom Black Scrollbar Styles for inner elements (like sidebar), NOT the root page */
-*:not(html):not(body)::-webkit-scrollbar {
-  width: 6px !important;
-  height: 6px !important;
+/* Highly Visible Custom Black Scrollbar Styles globally and locally (both left & right scrollbars) */
+*::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
 }
 
-*:not(html):not(body)::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: #050505 !important;
 }
 
-*:not(html):not(body)::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background: #222222 !important;
   border: 1px solid #111111 !important;
-  border-radius: 6px !important;
+  border-radius: 8px !important;
 }
 
-*:not(html):not(body)::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover {
   background: #333333 !important;
 }
 
-*:not(html):not(body)::-webkit-scrollbar-button {
+*::-webkit-scrollbar-button {
   display: none !important;
 }
 
-*:not(html):not(body) {
-  scrollbar-width: thin !important;
-  scrollbar-color: #222222 #050505 !important;
-}
-
-/* Restore default native scrollbar styles for root html and body */
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  width: auto !important;
-  height: auto !important;
-}
-
-html::-webkit-scrollbar-track,
-body::-webkit-scrollbar-track {
-  background: initial !important;
-}
-
-html::-webkit-scrollbar-thumb,
-body::-webkit-scrollbar-thumb {
-  background: initial !important;
-  border-radius: initial !important;
-}
-
-html::-webkit-scrollbar-button,
-body::-webkit-scrollbar-button {
-  display: initial !important;
-}
-
-html, body {
+* {
   scrollbar-width: auto !important;
-  scrollbar-color: auto !important;
+  scrollbar-color: #222222 #050505 !important;
 }
