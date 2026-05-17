@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { api } from "@/lib/api";
-import { Search, ChevronDown, ChevronUp, User, Clock, FileText } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, User, Clock, FileText, History } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const ACTION_COLORS: Record<string, string> = {
@@ -46,7 +46,7 @@ export default function AuditPage() {
       <div className="mb-10">
         <div className="flex items-center space-x-3 mb-2">
           <div className="p-3 bg-indigo-500/10 rounded-xl border border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.15)]">
-            <FileText className="w-6 h-6 text-indigo-400" />
+            <History className="w-6 h-6 text-indigo-400" />
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-1">
             Audit Trail

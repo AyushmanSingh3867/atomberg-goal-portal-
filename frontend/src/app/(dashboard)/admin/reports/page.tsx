@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { api } from "@/lib/api";
 import toast from 'react-hot-toast';
 import { cn } from '@/lib/utils';
-import { PieChart } from 'lucide-react';
+import { FileText } from 'lucide-react';
 
 const STATUS_COLORS: Record<string, string> = {
   APPROVED:  "text-green-400 bg-green-400/10",
@@ -105,7 +105,7 @@ export default function ReportsPage() {
       <div className="mb-8">
         <div className="flex items-center space-x-3 mb-2">
           <div className="p-3 bg-indigo-500/10 rounded-xl border border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.15)]">
-            <PieChart className="w-6 h-6 text-indigo-400" />
+            <FileText className="w-6 h-6 text-indigo-400" />
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent pb-1">
             Reporting & Governance
