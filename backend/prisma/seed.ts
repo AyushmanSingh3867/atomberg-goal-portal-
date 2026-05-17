@@ -23,16 +23,20 @@ async function main() {
     create: { name: 'Product Engineering' },
   });
 
-  const hashedPassword = await bcrypt.hash('password123', 10);
+  const hashAdmin = await bcrypt.hash('Admin@2026!', 10);
+  const hashManager = await bcrypt.hash('Manager@2026!', 10);
+  const hashEmployee = await bcrypt.hash('Employee@2026!', 10);
 
   // 2. Create Manager User
   const manager = await prisma.user.upsert({
     where: { email: 'manager@atomberg.com' },
-    update: {},
+    update: {
+      password: hashManager
+    },
     create: {
       name: 'Suresh Kumar',
       email: 'manager@atomberg.com',
-      password: hashedPassword,
+      password: hashManager,
       role: 'MANAGER',
       department_id: dept.id,
     },
@@ -41,11 +45,13 @@ async function main() {
   // 2b. Create Admin User
   const admin = await prisma.user.upsert({
     where: { email: 'admin@atomberg.com' },
-    update: {},
+    update: {
+      password: hashAdmin
+    },
     create: {
       name: 'Ramesh Kumar',
       email: 'admin@atomberg.com',
-      password: hashedPassword,
+      password: hashAdmin,
       role: 'ADMIN',
       department_id: dept.id,
     },
@@ -54,11 +60,13 @@ async function main() {
   // 3. Create Employee 1 (Ayushman) - Will have an APPROVED goal sheet for testing check-ins
   const user1 = await prisma.user.upsert({
     where: { email: 'ayushman@atomberg.com' },
-    update: {},
+    update: {
+      password: hashEmployee
+    },
     create: {
       name: 'Ayushman Singh',
       email: 'ayushman@atomberg.com',
-      password: hashedPassword,
+      password: hashEmployee,
       role: 'EMPLOYEE',
       department_id: dept.id,
       manager_id: manager.id,
@@ -68,11 +76,13 @@ async function main() {
   // 4. Create Employee 2 (Shreya Kumari) - Will have a SUBMITTED goal sheet for testing manager approval
   const user2 = await prisma.user.upsert({
     where: { email: 'shreya@atomberg.com' },
-    update: {},
+    update: {
+      password: hashEmployee
+    },
     create: {
       name: 'Shreya Kumari',
       email: 'shreya@atomberg.com',
-      password: hashedPassword,
+      password: hashEmployee,
       role: 'EMPLOYEE',
       department_id: dept.id,
       manager_id: manager.id,
@@ -242,9 +252,10 @@ async function main() {
   console.log("✅ Escalation rules seeded");
 
   console.log('✅ Phase 2 Seed complete!');
-  console.log(`   Manager: ${manager.email} / password123`);
-  console.log(`   Employee (Approved): ${user1.email} / password123`);
-  console.log(`   Employee (Pending): ${user2.email} / password123`);
+  console.log(`   Admin: ${admin.email} / Admin@2026!`);
+  console.log(`   Manager: ${manager.email} / Manager@2026!`);
+  console.log(`   Employee (Approved): ${user1.email} / Employee@2026!`);
+  console.log(`   Employee (Pending): ${user2.email} / Employee@2026!`);
 }
 
 main()

@@ -26,10 +26,10 @@ Use these pre-configured accounts to experience the full end-to-end performance 
 
 | User Role | Email Address | Password | Initial State / Testing Scenario |
 | :--- | :--- | :--- | :--- |
-| **👑 ADMIN** | `admin@atomberg.com` | `password123` | Control active cycles, unlock goal sheets, warning logs, and view real-time audit trails. |
-| **💼 MANAGER** | `manager@atomberg.com` | `password123` | Manage pending team sheets, execute **Approve / Return for Rework** workflows, and log check-in feedback notes. |
-| **🧑‍💻 EMPLOYEE (Approved)** | `ayushman@atomberg.com` | `password123` | Goal Sheet status is **APPROVED**. Fully unlocked for quarterly achievements log. |
-| **🧑‍💻 EMPLOYEE (Pending)** | `shreya@atomberg.com` | `password123` | Goal Sheet status is **SUBMITTED** (Pending review). Awaiting manager sign-off to unlock check-ins. |
+| **👑 ADMIN** | `admin@atomberg.com` | `Admin@2026!` | Control active cycles, unlock goal sheets, warning logs, and view real-time audit trails. |
+| **💼 MANAGER** | `manager@atomberg.com` | `Manager@2026!` | Manage pending team sheets, execute **Approve / Return for Rework** workflows, and log check-in feedback notes. |
+| **🧑‍💻 EMPLOYEE (Approved)** | `ayushman@atomberg.com` | `Employee@2026!` | Goal Sheet status is **APPROVED**. Fully unlocked for quarterly achievements log. |
+| **🧑‍💻 EMPLOYEE (Pending)** | `shreya@atomberg.com` | `Employee@2026!` | Goal Sheet status is **SUBMITTED** (Pending review). Awaiting manager sign-off to unlock check-ins. |
 
 ---
 
