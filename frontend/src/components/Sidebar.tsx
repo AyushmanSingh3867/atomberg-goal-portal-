@@ -62,7 +62,7 @@ export function Sidebar() {
   return (
     <aside 
       className={cn(
-        "sticky top-0 h-screen bg-[#0a0a0a] border-r border-slate-800/60 flex flex-col pt-8 pb-6 shadow-2xl z-50 transition-all duration-300 shrink-0 relative",
+        "sticky top-0 h-screen bg-[#0a0a0a] border-r border-slate-800/60 flex flex-col pt-8 pb-6 shadow-2xl z-50 transition-all duration-300 shrink-0 self-start",
         isCollapsed ? "w-[80px]" : "w-[240px]"
       )}
     >
@@ -137,7 +137,7 @@ export function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 space-y-2">
+      <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
         {visibleNavItems.map((item) => {
           const isActive = pathname === item.path;
           return (
