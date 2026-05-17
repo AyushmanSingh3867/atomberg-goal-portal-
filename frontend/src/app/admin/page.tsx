@@ -136,7 +136,6 @@ export default function AdminDashboard() {
             {syncing ? "Syncing..." : "Sync from Azure AD"}
           </button>
         </div>
-      </div>
 
       <div className="flex gap-4 mb-8">
         <button onClick={() => setActiveTab('cycles')} className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition ${activeTab === 'cycles' ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>
