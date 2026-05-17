@@ -12,6 +12,7 @@ function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
   const { setUser } = useAuthStore();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -19,6 +20,7 @@ function LoginForm() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setLoginError(null);
     try {
       const res = await api.auth.login(email, password);
       if (res.token) {
@@ -29,6 +31,7 @@ function LoginForm() {
       toast.success(`Welcome back, ${res.user.name}!`);
       router.push(res.user.role === 'ADMIN' ? '/admin' : res.user.role === 'MANAGER' ? '/dashboard' : '/');
     } catch (err: any) {
+      setLoginError(err.message || 'Invalid email or password');
       toast.error(err.message || 'Login failed');
     } finally {
       setLoading(false);
@@ -71,7 +74,7 @@ function LoginForm() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-black/40 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-700 font-medium"
+                  className="w-full bg-black/40 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40 transition-all placeholder:text-slate-700 font-medium"
                   placeholder="name@atomberg.com"
                 />
               </div>
@@ -86,10 +89,15 @@ function LoginForm() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-black/40 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-700"
+                  className="w-full bg-black/40 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40 transition-all placeholder:text-slate-700"
                   placeholder="••••••••"
                 />
               </div>
+              {loginError && (
+                <p className="text-red-500 text-xs mt-2 text-left pl-1 font-semibold animate-pulse">
+                  {loginError}
+                </p>
+              )}
             </div>
 
             <button
@@ -111,7 +119,7 @@ function LoginForm() {
 
             <a
               href={`${process.env.NEXT_PUBLIC_API_URL || 'https://atomberg-backend.onrender.com/api'}/auth/azure/login`}
-              className="w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl border border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 transition-all group"
+              className="w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl border border-[#2a2a45] hover:border-indigo-500 hover:bg-slate-800/50 transition-all group"
             >
               {/* Microsoft Logo */}
               <div className="grid grid-cols-2 gap-0.5 w-5 h-5 flex-shrink-0">
