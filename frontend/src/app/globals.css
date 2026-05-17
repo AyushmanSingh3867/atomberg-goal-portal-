@@ -51,26 +51,30 @@ body {
   background-attachment: fixed;
 }
 
-/* Premium Slim Scrollbar Styles */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+/* Premium Slim Scrollbar Styles globally and locally */
+*::-webkit-scrollbar {
+  width: 4px !important;
+  height: 4px !important;
 }
 
-::-webkit-scrollbar-track {
-  background: #2a2a45;
+*::-webkit-scrollbar-track {
+  background: #2a2a45 !important;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #6366f1;
-  border-radius: 4px;
+*::-webkit-scrollbar-thumb {
+  background: #6366f1 !important;
+  border-radius: 4px !important;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #4f46e5;
+*::-webkit-scrollbar-thumb:hover {
+  background: #4f46e5 !important;
+}
+
+*::-webkit-scrollbar-button {
+  display: none !important;
 }
 
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #6366f1 #2a2a45;
+  scrollbar-width: thin !important;
+  scrollbar-color: #6366f1 #2a2a45 !important;
 }
