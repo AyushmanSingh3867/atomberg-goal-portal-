@@ -256,8 +256,11 @@ export default function AdminDashboard() {
                 <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
                   <Target className="w-5 h-5 text-emerald-400" /> Active Cycles
                 </h2>
-                <p className="text-slate-400 text-sm mb-6">
-                  Goal cycles that are currently active in the portal for employee target setting and reviews.
+                <p className="text-slate-400 text-sm mb-6 font-medium">
+                  {cycles.filter(c => c.is_active).length === 1 
+                    ? `1 active cycle · ${cycles.filter(c => c.is_active)[0]?.name}` 
+                    : `${cycles.filter(c => c.is_active).length} active cycles`
+                  }
                 </p>
                 <div className="space-y-4 max-h-[220px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
                   {cycles.filter(c => c.is_active).length === 0 ? (
@@ -275,8 +278,9 @@ export default function AdminDashboard() {
                           <span className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-black rounded-full uppercase tracking-wider">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Active
                           </span>
-                          <span className="text-xs text-slate-400 font-semibold bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg">
-                            {c._count?.goalSheets ?? 0} emp
+                          <span className="text-xs text-slate-400 font-semibold bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
+                            <Users className="w-3.5 h-3.5 text-indigo-400" />
+                            {c._count?.goalSheets ?? 0} {c._count?.goalSheets === 1 ? 'employee' : 'employees'}
                           </span>
                         </div>
                       </div>
@@ -290,7 +294,7 @@ export default function AdminDashboard() {
           {/* Bottom Table: Existing Cycles */}
           <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
             <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-              <RefreshCw className="w-5 h-5 text-indigo-400" /> Existing Cycles
+              <RefreshCw className="w-5 h-5 text-indigo-400" /> All Goal Cycles
             </h2>
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
@@ -327,7 +331,10 @@ export default function AdminDashboard() {
                         </span>
                       </td>
                       <td className="py-4 text-right font-semibold text-slate-200">
-                        {c._count?.goalSheets ?? 0} emp
+                        <span className="inline-flex items-center gap-1.5">
+                          <Users className="w-3.5 h-3.5 text-slate-500" />
+                          {c._count?.goalSheets ?? 0} {c._count?.goalSheets === 1 ? 'employee' : 'employees'}
+                        </span>
                       </td>
                     </tr>
                   ))}
