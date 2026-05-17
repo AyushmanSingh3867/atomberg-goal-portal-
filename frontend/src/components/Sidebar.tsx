@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { LayoutDashboard, Target, Activity, Settings, FileText, CheckSquare, ShieldAlert, ChevronLeft, ChevronRight, Bell, PieChart, AlertTriangle, List, History } from 'lucide-react';
+import { LayoutDashboard, Target, Activity, Settings, FileText, CheckSquare, ShieldAlert, ChevronLeft, ChevronRight, Bell, PieChart, AlertTriangle, List, History, LogOut, User } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 import { cn } from '../lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
@@ -15,6 +15,7 @@ export function Sidebar() {
   const [showNotifications, setShowNotifications] = useState(false);
   const { user } = useAuthStore();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showProfilePopover, setShowProfilePopover] = useState(false);
 
   useEffect(() => {
     // Fetch active check-in window to show badge
@@ -180,48 +181,76 @@ export function Sidebar() {
         </div>
       )}
 
-      {/* Footer / Logout */}
-      <div className={cn("mt-auto p-4 border-t border-slate-800/50", isCollapsed && "px-2 py-4")}>
-        {!isCollapsed ? (
-          <div className="flex items-center justify-between gap-3 w-full">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-black text-xs shrink-0">
+      {/* Footer / Profile Section */}
+      <div className={cn("mt-auto p-4 border-t border-slate-800/50 relative", isCollapsed && "px-2 py-4")}>
+        {/* Profile Details Popover Card */}
+        {showProfilePopover && (
+          <div className={cn(
+            "absolute bottom-20 left-4 right-4 bg-[#0d0d18]/95 backdrop-blur-xl border border-indigo-500/20 p-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-50 animate-in fade-in slide-in-from-bottom-2 duration-200 flex flex-col gap-3",
+            isCollapsed && "left-16 w-64 bottom-4"
+          )}>
+            <div className="flex items-center gap-3 border-b border-slate-800/60 pb-3">
+              <div className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-black text-sm shrink-0">
                 {user?.name ? user.name.substring(0, 1).toUpperCase() : 'U'}
               </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-200 truncate">{user?.name}</p>
-                <p className="text-[10px] text-slate-500 truncate font-semibold uppercase tracking-wider mt-0.5">{user?.role}</p>
+              <div className="min-w-0 flex-1">
+                <h4 className="text-xs font-bold text-slate-100 leading-normal">{user?.name}</h4>
+                <p className="text-[10px] text-slate-400 truncate mt-0.5">{user?.email || 'No email available'}</p>
               </div>
             </div>
-            <button 
-              onClick={async () => {
-                await api.auth.logout();
-                window.location.href = '/login';
-              }}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-400/5 transition-all group shrink-0"
-              title="Sign Out"
-            >
-              <Settings className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">Sign Out</span>
-            </button>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center gap-3 w-full">
-            <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-black text-xs shrink-0" title={`${user?.name} (${user?.role})`}>
-              {user?.name ? user.name.substring(0, 1).toUpperCase() : 'U'}
+            
+            <div className="space-y-2 text-[10px] font-semibold text-slate-400">
+              <div className="flex justify-between items-center bg-slate-900/50 p-2 rounded-lg border border-slate-800/40">
+                <span>Role:</span>
+                <span className="text-indigo-400 uppercase tracking-widest font-black text-[9px] bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">{user?.role}</span>
+              </div>
+              {user?.department && (
+                <div className="flex justify-between items-center bg-slate-900/50 p-2 rounded-lg border border-slate-800/40">
+                  <span>Department:</span>
+                  <span className="text-slate-200 uppercase tracking-widest font-black text-[9px] bg-slate-100/5 px-2 py-0.5 rounded border border-slate-100/10">{user?.department}</span>
+                </div>
+              )}
             </div>
-            <button 
+            
+            <button
               onClick={async () => {
                 await api.auth.logout();
                 window.location.href = '/login';
               }}
-              className="flex items-center justify-center p-2 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-400/5 transition-all group"
-              title="Sign Out"
+              className="w-full mt-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-wider group"
             >
-              <Settings className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
+              <LogOut className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              <span>Sign Out</span>
             </button>
           </div>
         )}
+
+        {/* Clickable Profile Card */}
+        <div 
+          onClick={() => setShowProfilePopover(!showProfilePopover)}
+          className={cn(
+            "flex items-center justify-between gap-3 w-full cursor-pointer hover:bg-slate-900/50 p-1.5 rounded-xl transition-all duration-200 border border-transparent hover:border-slate-800/40 group",
+            isCollapsed && "justify-center p-0 hover:bg-transparent hover:border-transparent"
+          )}
+          title={isCollapsed ? `${user?.name} (${user?.role}) - Click to view` : "Click to view profile"}
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-8 h-8 rounded-full bg-indigo-500 hover:scale-105 transition-transform flex items-center justify-center text-white font-black text-xs shrink-0 shadow-lg shadow-indigo-500/10">
+              {user?.name ? user.name.substring(0, 1).toUpperCase() : 'U'}
+            </div>
+            {!isCollapsed && (
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-slate-200 group-hover:text-slate-100 transition-colors truncate">{user?.name}</p>
+                <p className="text-[10px] text-slate-500 group-hover:text-slate-400 transition-colors truncate font-semibold uppercase tracking-wider mt-0.5">{user?.role}</p>
+              </div>
+            )}
+          </div>
+          {!isCollapsed && (
+            <div className="flex items-center gap-1.5 px-1.5 py-1 rounded-md text-slate-500 group-hover:text-slate-400 transition-colors shrink-0">
+              <Settings className="w-3.5 h-3.5 group-hover:rotate-45 transition-transform duration-300" />
+            </div>
+          )}
+        </div>
       </div>
     </aside>
   );
