@@ -89,4 +89,4 @@ If you are running offline without Active Directory SSO, use these local account
 * **Admin:** `admin@atomberg.com` (Password: `password123`)
 * **Manager:** `manager@atomberg.com` (Password: `password123`)
 * **Employee (Approved):** `ayushman@atomberg.com` (Password: `password123`)
-* **Employee (Pending):** `sarah@atomberg.com` (Password: `password123`)
+* **Employee (Pending):** `shreya@atomberg.com` (Password: `password123`)

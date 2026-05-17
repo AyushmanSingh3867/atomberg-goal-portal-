@@ -65,13 +65,13 @@ async function main() {
     },
   });
 
-  // 4. Create Employee 2 (Sarah) - Will have a SUBMITTED goal sheet for testing manager approval
+  // 4. Create Employee 2 (Shreya Kumari) - Will have a SUBMITTED goal sheet for testing manager approval
   const user2 = await prisma.user.upsert({
-    where: { email: 'sarah@atomberg.com' },
+    where: { email: 'shreya@atomberg.com' },
     update: {},
     create: {
-      name: 'Sarah',
-      email: 'sarah@atomberg.com',
+      name: 'Shreya Kumari',
+      email: 'shreya@atomberg.com',
       password: hashedPassword,
       role: 'EMPLOYEE',
       department_id: dept.id,
@@ -188,7 +188,7 @@ async function main() {
     }
   });
 
-  // 9. Create SUBMITTED goal sheet for Sarah (for testing Manager Approval Dashboard)
+  // 9. Create SUBMITTED goal sheet for Shreya Kumari (for testing Manager Approval Dashboard)
   await prisma.goalSheet.create({
     data: {
       employee_id: user2.id,
