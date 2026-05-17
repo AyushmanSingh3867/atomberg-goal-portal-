@@ -1,11 +1,14 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://atomberg-backend.onrender.com/api';
 
 async function apiFetch(path: string, options: RequestInit = {}) {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('ag_token') : '';
+
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...options.headers,
     },
   });

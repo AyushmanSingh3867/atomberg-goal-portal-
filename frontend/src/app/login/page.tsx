@@ -21,6 +21,10 @@ function LoginForm() {
     setLoading(true);
     try {
       const res = await api.auth.login(email, password);
+      if (res.token) {
+        localStorage.setItem("ag_token", res.token);
+        document.cookie = `token=${res.token}; path=/; max-age=86400; SameSite=Lax`;
+      }
       setUser(res.user);
       toast.success(`Welcome back, ${res.user.name}!`);
       router.push(res.user.role === 'ADMIN' ? '/admin' : res.user.role === 'MANAGER' ? '/dashboard' : '/');
