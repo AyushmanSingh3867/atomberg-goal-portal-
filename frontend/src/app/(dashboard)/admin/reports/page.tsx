@@ -86,7 +86,7 @@ export default function ReportsPage() {
 
     const token = document.cookie.split('token=')[1]?.split(';')[0];
     const response = await fetch(
-      `http://localhost:5000/api/reports/export/${type}?${params}`,
+      `${process.env.NEXT_PUBLIC_API_URL || 'https://atomberg-backend.onrender.com/api'}/reports/export/${type}?${params}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     const blob     = await response.blob();

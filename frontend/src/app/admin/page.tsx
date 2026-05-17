@@ -45,7 +45,7 @@ export default function AdminDashboard() {
     try {
       // Assuming api.ts has this implemented, if not we will fetch directly
       const token = document.cookie.split('token=')[1]?.split(';')[0];
-      const res = await fetch('http://localhost:5000/api/admin/audit-logs', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://atomberg-backend.onrender.com/api'}/admin/audit-logs`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -63,7 +63,7 @@ export default function AdminDashboard() {
     setIsLoading(true);
     try {
       const token = document.cookie.split('token=')[1]?.split(';')[0];
-      const res = await fetch('http://localhost:5000/api/admin/cycles', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://atomberg-backend.onrender.com/api'}/admin/cycles`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
     setIsLoading(true);
     try {
       const token = document.cookie.split('token=')[1]?.split(';')[0];
-      const res = await fetch(`http://localhost:5000/api/admin/goals/${goalId}/unlock`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://atomberg-backend.onrender.com/api'}/admin/goals/${goalId}/unlock`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });

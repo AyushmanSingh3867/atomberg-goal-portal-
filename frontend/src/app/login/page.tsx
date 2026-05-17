@@ -62,7 +62,7 @@ function LoginForm() {
               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block ml-1">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
-                <input 
+                <input
                   type="email"
                   required
                   value={email}
@@ -77,7 +77,7 @@ function LoginForm() {
               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block ml-1">Password</label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
-                <input 
+                <input
                   type="password"
                   required
                   value={password}
@@ -106,7 +106,7 @@ function LoginForm() {
             </div>
 
             <a
-              href="http://localhost:5000/api/auth/azure/login"
+              href={`${process.env.NEXT_PUBLIC_API_URL || 'https://atomberg-backend.onrender.com/api'}/auth/azure/login`}
               className="w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl border border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 transition-all group"
             >
               {/* Microsoft Logo */}
