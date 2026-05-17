@@ -181,32 +181,47 @@ export function Sidebar() {
       )}
 
       {/* Footer / Logout */}
-      <div className={cn("mt-auto p-4 border-t border-slate-800/50", isCollapsed && "px-2")}>
-        <div className={cn(
-          "bg-slate-900/40 border border-slate-800/60 rounded-xl flex items-center p-3 gap-3 mb-3",
-          isCollapsed && "justify-center px-0"
-        )}>
-          <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-black text-xs shrink-0">
-            {user?.name ? user.name.substring(0, 1).toUpperCase() : 'U'}
-          </div>
-          {!isCollapsed && (
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold text-slate-200 truncate">{user?.name}</p>
-              <p className="text-[10px] text-slate-500 truncate font-medium uppercase tracking-widest">{user?.role}</p>
+      <div className={cn("mt-auto p-4 border-t border-slate-800/50", isCollapsed && "px-2 py-4")}>
+        {!isCollapsed ? (
+          <div className="flex items-center justify-between gap-3 w-full">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-black text-xs shrink-0">
+                {user?.name ? user.name.substring(0, 1).toUpperCase() : 'U'}
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-slate-200 truncate">{user?.name}</p>
+                <p className="text-[10px] text-slate-500 truncate font-semibold uppercase tracking-wider mt-0.5">{user?.role}</p>
+              </div>
             </div>
-          )}
-        </div>
-
-        <button 
-          onClick={async () => {
-            await api.auth.logout();
-            window.location.href = '/login';
-          }}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-400/5 transition-all group"
-        >
-          <Settings className="w-5 h-5 group-hover:rotate-90 transition-transform duration-500" />
-          {!isCollapsed && <span className="text-[10px] font-black uppercase tracking-widest">Sign Out</span>}
-        </button>
+            <button 
+              onClick={async () => {
+                await api.auth.logout();
+                window.location.href = '/login';
+              }}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-400/5 transition-all group shrink-0"
+              title="Sign Out"
+            >
+              <Settings className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Sign Out</span>
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-3 w-full">
+            <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-black text-xs shrink-0" title={`${user?.name} (${user?.role})`}>
+              {user?.name ? user.name.substring(0, 1).toUpperCase() : 'U'}
+            </div>
+            <button 
+              onClick={async () => {
+                await api.auth.logout();
+                window.location.href = '/login';
+              }}
+              className="flex items-center justify-center p-2 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-400/5 transition-all group"
+              title="Sign Out"
+            >
+              <Settings className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
+            </button>
+          </div>
+        )}
       </div>
     </aside>
   );
