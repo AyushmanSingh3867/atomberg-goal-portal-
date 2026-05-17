@@ -50,3 +50,27 @@ body {
   background: radial-gradient(ellipse at top left, #151530 0%, #08080f 70%, #040406 100%);
   background-attachment: fixed;
 }
+
+/* Premium Slim Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2a2a45;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f46e5;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #2a2a45;
+}
