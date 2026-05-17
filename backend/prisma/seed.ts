@@ -82,9 +82,9 @@ async function main() {
   // 5. Create Goal Cycle
   const cycle = await prisma.goalCycle.create({
     data: {
-      name: 'FY2025-26',
-      start_date: new Date('2025-04-01'),
-      end_date: new Date('2026-03-31'),
+      name: 'FY2026-27',
+      start_date: new Date('2026-04-01'),
+      end_date: new Date('2027-03-31'),
       is_active: true,
     },
   });
@@ -103,22 +103,22 @@ async function main() {
       {
         cycle_id: cycle.id,
         period: 'Q2',
-        opens_at: new Date('2025-10-01'),
-        closes_at: new Date('2025-10-15'),
+        opens_at: new Date('2026-10-01'),
+        closes_at: new Date('2026-10-15'),
         is_active: false,
       },
       {
         cycle_id: cycle.id,
         period: 'Q3',
-        opens_at: new Date('2026-01-01'),
-        closes_at: new Date('2026-01-15'),
+        opens_at: new Date('2027-01-01'),
+        closes_at: new Date('2027-01-15'),
         is_active: false,
       },
       {
         cycle_id: cycle.id,
         period: 'Q4_ANNUAL',
-        opens_at: new Date('2026-03-15'),
-        closes_at: new Date('2026-03-31'),
+        opens_at: new Date('2027-03-15'),
+        closes_at: new Date('2027-03-31'),
         is_active: false,
       }
     ]

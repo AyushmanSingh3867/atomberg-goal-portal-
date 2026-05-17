@@ -192,12 +192,17 @@ router.post('/submit', authenticate, requireRole('EMPLOYEE'), async (req: AuthRe
         `/dashboard`
       );
 
+      const cycleObj = await prisma.goalCycle.findUnique({
+        where: { id: cycle_id }
+      });
+      const cycleNameVal = cycleObj?.name || "Goal Cycle";
+
       // Email notification
       await sendGoalSubmittedEmail({
         managerEmail: user.manager.email,
         managerName:  user.manager.name,
         employeeName: user.name,
-        cycleName:    "FY2025-26",
+        cycleName:    cycleNameVal,
         goalCount:    result.goals.length,
         sheetId:      result.sheet.id,
       });
@@ -206,7 +211,7 @@ router.post('/submit', authenticate, requireRole('EMPLOYEE'), async (req: AuthRe
       await sendGoalSubmittedTeamsCard({
         managerName:  user.manager.name,
         employeeName: user.name,
-        cycleName:    "FY2025-26",
+        cycleName:    cycleNameVal,
         goalCount:    result.goals.length,
         totalWeight:  100,
         sheetId:      result.sheet.id,

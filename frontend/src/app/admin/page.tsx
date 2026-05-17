@@ -209,7 +209,7 @@ export default function AdminDashboard() {
                 </h2>
                 <form onSubmit={handleCreateCycle} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-400 mb-1">Cycle Name (e.g., FY2025-26)</label>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">Cycle Name (e.g., FY2026-27)</label>
                     <input 
                       type="text" 
                       value={cycleName} 

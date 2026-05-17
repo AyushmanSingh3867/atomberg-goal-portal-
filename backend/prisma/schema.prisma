@@ -90,7 +90,7 @@ model User {
 
 model GoalCycle {
   id         String      @id @default(uuid())
-  name       String      // e.g. FY2025-26
+  name       String      // e.g. FY2026-27
   start_date DateTime
   end_date   DateTime
   is_active  Boolean     @default(true)
