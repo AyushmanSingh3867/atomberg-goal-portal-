@@ -51,27 +51,33 @@ body {
   background-attachment: fixed;
 }
 
-/* Premium Slim Scrollbar Styles for inner elements (like sidebar), NOT the root page */
+/* Highly Visible Custom Black Scrollbar Styles for inner elements (like sidebar), NOT the root page */
 *:not(html):not(body)::-webkit-scrollbar {
-  width: 4px !important;
-  height: 4px !important;
+  width: 6px !important;
+  height: 6px !important;
 }
 
 *:not(html):not(body)::-webkit-scrollbar-track {
-  background: #2a2a45 !important;
+  background: #050505 !important;
 }
 
 *:not(html):not(body)::-webkit-scrollbar-thumb {
-  background: #6366f1 !important;
-  border-radius: 4px !important;
+  background: #222222 !important;
+  border: 1px solid #111111 !important;
+  border-radius: 6px !important;
 }
 
 *:not(html):not(body)::-webkit-scrollbar-thumb:hover {
-  background: #4f46e5 !important;
+  background: #333333 !important;
 }
 
 *:not(html):not(body)::-webkit-scrollbar-button {
   display: none !important;
+}
+
+*:not(html):not(body) {
+  scrollbar-width: thin !important;
+  scrollbar-color: #222222 #050505 !important;
 }
 
 /* Restore default native scrollbar styles for root html and body */
