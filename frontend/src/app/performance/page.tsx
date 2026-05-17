@@ -15,6 +15,8 @@ export default function PerformancePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!user) return;
+
     // Fetch cycles and initial performance
     const init = async () => {
       try {
@@ -32,7 +34,7 @@ export default function PerformancePage() {
       }
     };
     init();
-  }, []);
+  }, [user]);
 
   const fetchPerformance = async (cycleId: string) => {
     setLoading(true);
