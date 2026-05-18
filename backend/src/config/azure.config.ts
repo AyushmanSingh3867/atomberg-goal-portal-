@@ -19,7 +19,7 @@ export const AZURE_CONFIG = {
 const msalConfig: Configuration = {
   auth: {
     clientId:     AZURE_CONFIG.clientId,
-    authority:    `https://login.microsoftonline.com/${AZURE_CONFIG.tenantId}`,
+    authority:    `https://login.microsoftonline.com/common`,
     clientSecret: AZURE_CONFIG.clientSecret,
   },
   system: {
