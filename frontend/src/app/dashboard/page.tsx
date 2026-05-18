@@ -251,97 +251,112 @@ export default function ManagerDashboard() {
                 <p className="text-blue-200 font-medium">No check-in window is currently active. Displaying latest available data.</p>
               </div>
             )}
-            
-            {teamCheckins.map(member => (
-              <div key={member.id} className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-6 rounded-2xl shadow-md">
-                <div className="flex justify-between items-center mb-6">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-xl font-bold text-slate-100">{member.name}</h3>
-                    {!member.hasSheet && <span className="bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded text-xs font-bold">No Approved Goals</span>}
+            {teamCheckins.length === 0 ? (
+              <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800/80 p-10 rounded-3xl text-center shadow-2xl max-w-xl mx-auto relative overflow-hidden group my-8">
+                {/* Background glow decoration */}
+                <div className="absolute inset-0 bg-indigo-500/5 blur-[80px] rounded-full group-hover:bg-indigo-500/10 transition-colors duration-500 pointer-events-none" />
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-slate-950/60 border border-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
+                    <Users className="w-8 h-8 text-indigo-400" />
                   </div>
-                  
-                  {member.hasSheet && (
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-slate-400">Quarter Progress</span>
-                      <div className={cn(
-                        "px-3 py-1 rounded-full text-sm font-bold border",
-                        member.overallScore >= 80 ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" :
-                        member.overallScore >= 50 ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
-                        "bg-red-500/10 text-red-400 border-red-500/20"
-                      )}>
-                        {member.overallScore}%
-                      </div>
-                    </div>
-                  )}
+                  <h4 className="text-xl font-bold text-slate-100 mb-3 tracking-tight">No Reporting Team Members Found</h4>
+                  <p className="text-slate-400 text-sm max-w-md mx-auto leading-relaxed">
+                    This workspace is reserved for Managers with direct reporting team members. Active reporting lines and their quarterly performance check-ins will automatically populate here.
+                  </p>
                 </div>
-
-                {member.hasSheet && (
-                  <>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm text-left mb-6">
-                        <thead className="text-xs text-slate-400 uppercase bg-black/20 border-y border-slate-800">
-                          <tr>
-                            <th className="px-4 py-3">Goal</th>
-                            <th className="px-4 py-3">Target</th>
-                            <th className="px-4 py-3">Achieved</th>
-                            <th className="px-4 py-3 text-center">Score</th>
-                            <th className="px-4 py-3">Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {member.goalSheets[0].goals.map((g: any) => {
-                            const ach = g.achievements[0] || {};
-                            const score = ach.progress_score ?? 0;
-                            return (
-                              <tr key={g.id} className="border-b border-slate-800/50">
-                                <td className="px-4 py-3 font-medium text-slate-200">{g.title}</td>
-                                <td className="px-4 py-3 text-slate-400">{g.target_value}</td>
-                                <td className="px-4 py-3 text-slate-300 font-medium">{ach.actual_value || '--'}</td>
-                                <td className="px-4 py-3 text-center">
-                                  <span className={cn("font-bold", score >= 80 ? "text-emerald-400" : score >= 50 ? "text-amber-400" : "text-red-400")}>
-                                    {score}%
-                                  </span>
-                                </td>
-                                <td className="px-4 py-3">
-                                  <span className={cn(
-                                    "text-xs font-semibold px-2 py-0.5 rounded",
-                                    ach.status === 'COMPLETED' ? "bg-emerald-500/10 text-emerald-400" :
-                                    ach.status === 'ON_TRACK' ? "bg-amber-500/10 text-amber-400" : "bg-slate-800 text-slate-400"
-                                  )}>
-                                    {ach.status?.replace('_', ' ') || 'NO DATA'}
-                                  </span>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
+              </div>
+            ) : (
+              teamCheckins.map(member => (
+                <div key={member.id} className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-6 rounded-2xl shadow-md">
+                  <div className="flex justify-between items-center mb-6">
+                    <div className="flex items-center gap-3">
+                      <h3 className="text-xl font-bold text-slate-100">{member.name}</h3>
+                      {!member.hasSheet && <span className="bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded text-xs font-bold">No Approved Goals</span>}
                     </div>
                     
-                    {/* Manager Feedback Box */}
-                    <div className="bg-black/20 p-4 rounded-xl border border-slate-800">
-                      <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2 mb-2">
-                        <MessageSquare className="w-3 h-3 text-indigo-400" /> Manager Check-in Discussion Notes
-                      </label>
-                      <div className="flex gap-3">
-                        <textarea 
-                          value={managerComments[member.goalSheets[0].id] || ''}
-                          onChange={(e) => setManagerComments(prev => ({ ...prev, [member.goalSheets[0].id]: e.target.value }))}
-                          placeholder="Document your check-in discussion, feedback, and next steps..."
-                          className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:border-indigo-500 outline-none h-20 resize-none"
-                        />
-                        <button 
-                          onClick={() => handleSaveCheckinComment(member.goalSheets[0].id)}
-                          className="px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-semibold transition"
-                        >
-                          Save
-                        </button>
+                    {member.hasSheet && (
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm text-slate-400">Quarter Progress</span>
+                        <div className={cn(
+                          "px-3 py-1 rounded-full text-sm font-bold border",
+                          member.overallScore >= 80 ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" :
+                          member.overallScore >= 50 ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
+                          "bg-red-500/10 text-red-400 border-red-500/20"
+                        )}>
+                          {member.overallScore}%
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            ))}
+                    )}
+                  </div>
+
+                  {member.hasSheet && (
+                    <>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left mb-6">
+                          <thead className="text-xs text-slate-400 uppercase bg-black/20 border-y border-slate-800">
+                            <tr>
+                              <th className="px-4 py-3">Goal</th>
+                              <th className="px-4 py-3">Target</th>
+                              <th className="px-4 py-3">Achieved</th>
+                              <th className="px-4 py-3 text-center">Score</th>
+                              <th className="px-4 py-3">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {member.goalSheets[0].goals.map((g: any) => {
+                              const ach = g.achievements[0] || {};
+                              const score = ach.progress_score ?? 0;
+                              return (
+                                <tr key={g.id} className="border-b border-slate-800/50">
+                                  <td className="px-4 py-3 font-medium text-slate-200">{g.title}</td>
+                                  <td className="px-4 py-3 text-slate-400">{g.target_value}</td>
+                                  <td className="px-4 py-3 text-slate-300 font-medium">{ach.actual_value || '--'}</td>
+                                  <td className="px-4 py-3 text-center">
+                                    <span className={cn("font-bold", score >= 80 ? "text-emerald-400" : score >= 50 ? "text-amber-400" : "text-red-400")}>
+                                      {score}%
+                                    </span>
+                                  </td>
+                                  <td className="px-4 py-3">
+                                    <span className={cn(
+                                      "text-xs font-semibold px-2 py-0.5 rounded",
+                                      ach.status === 'COMPLETED' ? "bg-emerald-500/10 text-emerald-400" :
+                                      ach.status === 'ON_TRACK' ? "bg-amber-500/10 text-amber-400" : "bg-slate-800 text-slate-400"
+                                    )}>
+                                      {ach.status?.replace('_', ' ') || 'NO DATA'}
+                                    </span>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                      
+                      {/* Manager Feedback Box */}
+                      <div className="bg-black/20 p-4 rounded-xl border border-slate-800">
+                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2 mb-2">
+                          <MessageSquare className="w-3 h-3 text-indigo-400" /> Manager Check-in Discussion Notes
+                        </label>
+                        <div className="flex gap-3">
+                          <textarea 
+                            value={managerComments[member.goalSheets[0].id] || ''}
+                            onChange={(e) => setManagerComments(prev => ({ ...prev, [member.goalSheets[0].id]: e.target.value }))}
+                            placeholder="Document your check-in discussion, feedback, and next steps..."
+                            className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:border-indigo-500 outline-none h-20 resize-none"
+                          />
+                          <button 
+                            onClick={() => handleSaveCheckinComment(member.goalSheets[0].id)}
+                            className="px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-semibold transition"
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))
+            )}
           </div>
         )}
 
