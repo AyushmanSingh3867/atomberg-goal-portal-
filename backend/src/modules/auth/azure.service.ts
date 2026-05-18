@@ -48,10 +48,16 @@ export const getMicrosoftProfile = async (accessToken: string) => {
   }
 
   // Get group memberships for role mapping
-  const { data: groups } = await axios.get(
-    "https://graph.microsoft.com/v1.0/me/memberOf",
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
+  let groups = { value: [] };
+  try {
+    const { data: grps } = await axios.get(
+      "https://graph.microsoft.com/v1.0/me/memberOf",
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    groups = grps;
+  } catch {
+    // No groups found or consumer account (e.g. personal Microsoft accounts)
+  }
 
   return { profile, manager, groups: groups.value ?? [] };
 };
