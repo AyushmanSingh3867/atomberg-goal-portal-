@@ -89,6 +89,22 @@ async function main() {
     },
   });
 
+  // 4b. Create Employee 3 (Ritik Singh) - Fresh employee with NO goal sheet for testing full lifecycle from scratch
+  const user3 = await prisma.user.upsert({
+    where: { email: 'ritik@atomberg.com' },
+    update: {
+      password: hashEmployee
+    },
+    create: {
+      name: 'Ritik Singh',
+      email: 'ritik@atomberg.com',
+      password: hashEmployee,
+      role: 'EMPLOYEE',
+      department_id: dept.id,
+      manager_id: manager.id,
+    },
+  });
+
   // 5. Create Goal Cycle
   const cycle = await prisma.goalCycle.create({
     data: {
@@ -256,6 +272,7 @@ async function main() {
   console.log(`   Manager: ${manager.email} / Manager@2026!`);
   console.log(`   Employee (Approved): ${user1.email} / Employee@2026!`);
   console.log(`   Employee (Pending): ${user2.email} / Employee@2026!`);
+  console.log(`   Employee (Fresh): ritik@atomberg.com / Employee@2026!`);
 }
 
 main()
