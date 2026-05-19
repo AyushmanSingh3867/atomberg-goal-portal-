@@ -144,19 +144,19 @@ router.post('/approve/:sheetId', authenticate, requireRole('MANAGER', 'ADMIN'), 
     });
 
     if (sheetWithCycle) {
-      await sendGoalApprovedEmail({
+      sendGoalApprovedEmail({
         employeeEmail: sheet.employee.email,
         employeeName:  sheet.employee.name,
         managerName:   "Your Manager",
         cycleName:     sheetWithCycle.cycle.name,
         sheetId,
-      });
+      }).catch(err => console.error("Approved email failed:", err));
 
-      await sendGoalApprovedTeamsCard({
+      sendGoalApprovedTeamsCard({
         employeeName: sheet.employee.name,
         managerName:  "Manager",
         cycleName:    sheetWithCycle.cycle.name,
-      });
+      }).catch(err => console.error("Approved Teams failed:", err));
     }
 
     res.json({ message: 'Goal sheet approved successfully', sheet: result });
@@ -221,14 +221,14 @@ router.post('/return/:sheetId', authenticate, requireRole('MANAGER', 'ADMIN'), a
     });
 
     if (sheetWithCycle) {
-      await sendGoalReturnedEmail({
+      sendGoalReturnedEmail({
         employeeEmail:  sheet.employee.email,
         employeeName:   sheet.employee.name,
         managerName:    "Your Manager",
         cycleName:      sheetWithCycle.cycle.name,
         reworkComment:  comment,
         sheetId,
-      });
+      }).catch(err => console.error("Returned email failed:", err));
     }
 
     res.json({ message: 'Goal sheet returned for rework', sheet: result });

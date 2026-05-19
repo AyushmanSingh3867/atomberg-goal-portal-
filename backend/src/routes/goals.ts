@@ -197,25 +197,25 @@ router.post('/submit', authenticate, requireRole('EMPLOYEE'), async (req: AuthRe
       });
       const cycleNameVal = cycleObj?.name || "Goal Cycle";
 
-      // Email notification
-      await sendGoalSubmittedEmail({
+      // Email notification (non-blocking)
+      sendGoalSubmittedEmail({
         managerEmail: user.manager.email,
         managerName:  user.manager.name,
         employeeName: user.name,
         cycleName:    cycleNameVal,
         goalCount:    result.goals.length,
         sheetId:      result.sheet.id,
-      });
+      }).catch(err => console.error("Email notification failed:", err));
 
-      // Teams notification
-      await sendGoalSubmittedTeamsCard({
+      // Teams notification (non-blocking)
+      sendGoalSubmittedTeamsCard({
         managerName:  user.manager.name,
         employeeName: user.name,
         cycleName:    cycleNameVal,
         goalCount:    result.goals.length,
         totalWeight:  100,
         sheetId:      result.sheet.id,
-      });
+      }).catch(err => console.error("Teams notification failed:", err));
     }
 
     res.status(201).json({ message: 'Goal sheet submitted successfully', data: result });
